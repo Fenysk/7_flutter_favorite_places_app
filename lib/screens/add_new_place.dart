@@ -1,32 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:favorite_places_app/model/place.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:favorite_places_app/providers/favorite_places_provider.dart';
 
-class AddNewPlace extends StatefulWidget {
+class AddNewPlace extends ConsumerStatefulWidget {
   const AddNewPlace({super.key});
 
   @override
-  State<AddNewPlace> createState() => _AddNewPlaceState();
+  ConsumerState<AddNewPlace> createState() => _AddNewPlaceState();
 }
 
-class _AddNewPlaceState extends State<AddNewPlace> {
+class _AddNewPlaceState extends ConsumerState<AddNewPlace> {
   String placeName = '';
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   String? _validatePlaceName(String? placeNameField) {
-    if (placeNameField == null || placeNameField.isEmpty || placeNameField.trim().isEmpty) return 'Please enter a valid name';
+    if (placeNameField == null || placeNameField.trim().isEmpty) return 'Please enter a name';
     return null;
-  }
-
-  void _submitNewPlace() {
-    if (!_formKey.currentState!.validate()) return;
-    _formKey.currentState!.save();
-
-    Navigator.of(context).pop(Place(title: placeName));
   }
 
   @override
   Widget build(BuildContext context) {
+    void submitNewPlace() {
+      if (!_formKey.currentState!.validate()) return;
+
+      _formKey.currentState!.save();
+
+      ref.read(favoritePlacesProvider.notifier).addNewPlace(Place(title: placeName));
+
+      Navigator.of(context).pop();
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Add a new favorite place"),
@@ -45,7 +50,7 @@ class _AddNewPlaceState extends State<AddNewPlace> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: _submitNewPlace,
+                onPressed: submitNewPlace,
                 child: const Text("Add to favorites"),
               ),
             ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:favorite_places_app/screens/favorite_places_list.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final colorScheme = ColorScheme.fromSeed(
   brightness: Brightness.dark,
@@ -26,7 +27,9 @@ final theme = ThemeData().copyWith(
 
 void main() {
   runApp(
-    const FavoritePlacesApp(),
+    const ProviderScope(
+      child: FavoritePlacesApp(),
+    ),
   );
 }
 
