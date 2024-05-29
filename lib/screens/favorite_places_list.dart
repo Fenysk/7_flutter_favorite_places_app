@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:favorite_places_app/widgets/favorite_place_item.dart';
 import 'package:favorite_places_app/screens/add_new_place.dart';
+import 'package:favorite_places_app/model/place.dart';
 
 class FavoritePlacesList extends StatefulWidget {
   const FavoritePlacesList({super.key});
@@ -10,20 +11,20 @@ class FavoritePlacesList extends StatefulWidget {
 }
 
 class _FavoritePlacesListState extends State<FavoritePlacesList> {
-  final List<String> _favoritePlaces = [
-    'Lyon',
-    'Paris',
-    'London',
+  final List<Place> _favoritePlaces = [
+    Place(title: 'Lyon'),
+    Place(title: 'Paris'),
+    Place(title: 'London'),
   ];
 
   void _openAddNewPlaceScreen() async {
-    final newPlace = await Navigator.of(context).push<String>(
+    final newPlace = await Navigator.of(context).push<Place>(
       MaterialPageRoute(
         builder: (builderContext) => const AddNewPlace(),
       ),
     );
 
-    if (newPlace == null || newPlace.isEmpty) return;
+    if (newPlace == null) return;
 
     setState(() => _favoritePlaces.add(newPlace));
   }

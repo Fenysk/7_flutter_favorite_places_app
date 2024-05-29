@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:favorite_places_app/model/place.dart';
 
 class AddNewPlace extends StatefulWidget {
   const AddNewPlace({super.key});
@@ -21,9 +22,7 @@ class _AddNewPlaceState extends State<AddNewPlace> {
     if (!_formKey.currentState!.validate()) return;
     _formKey.currentState!.save();
 
-    print(placeName);
-
-    Navigator.of(context).pop(placeName);
+    Navigator.of(context).pop(Place(title: placeName));
   }
 
   @override
